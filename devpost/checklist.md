@@ -10,7 +10,7 @@ Build mode: fast (the learner asked the agent to carry the build through and rep
 
 ## Slices
 
-- [ ] **1. The Deno preset plays as music**
+- [x] **1. The Deno preset plays as music**
   Becomes usable: A running page with a "Deno — first year" button and Play/Pause; pressing Play sounds Deno's first year through the sampled instruments, with a progress bar.
   Why now: The kernel and the biggest risk (does the history really sound like music?) come first; the scaffold, preset data, samples, arranger and engine all land here.
   PRD ref: `prd.md > The Core Journey` (steps 2, 5), `prd.md > The music`
@@ -82,3 +82,5 @@ Reflection: not started
 Activity mode: not started
 
 ## Revisions
+- Stack versions are Vite 8, TypeScript 7, Vitest 5 and React 19 — the current releases at build time; the spec named Vite 7.
+- The "listen to the densest weeks" check became a measured one: the agent cannot listen, so each instrument was rendered alone and its level compared (cello and "everyone else" turned down, the string pad turned up), and the renders are saved for the learner to hear.
