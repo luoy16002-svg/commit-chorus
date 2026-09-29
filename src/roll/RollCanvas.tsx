@@ -37,8 +37,17 @@ function firstAtOrAfter(holes: Hole[], beat: number): number {
   return lo;
 }
 
+const MIN_HEIGHT = 300;
+
 export function rollHeight(score: Score): number {
-  return RULER + score.voices.length * LANE + 14;
+  return Math.max(MIN_HEIGHT, RULER + score.voices.length * LANE + 14);
+}
+
+/** Centre of lane i; lanes are centred vertically when there are only a few. */
+function laneCenter(score: Score, i: number): number {
+  const used = score.voices.length * LANE;
+  const top = RULER + Math.max(0, (rollHeight(score) - RULER - 14 - used) / 2);
+  return top + i * LANE + LANE / 2 + 4;
 }
 
 export default function RollCanvas({ song, score, getBeat }: Props) {
@@ -63,7 +72,7 @@ export default function RollCanvas({ song, score, getBeat }: Props) {
     let width = 0;
     const height = rollHeight(score);
     const laneIndex = new Map(score.voices.map((v, i) => [v.id, i]));
-    const laneY = (id: VoiceId) => RULER + (laneIndex.get(id) ?? 0) * LANE + LANE / 2 + 4;
+    const laneY = (id: VoiceId) => laneCenter(score, laneIndex.get(id) ?? 0);
 
     const resize = () => {
       const dpr = window.devicePixelRatio || 1;
@@ -132,7 +141,7 @@ export default function RollCanvas({ song, score, getBeat }: Props) {
       ctx.fillText(pinned, GUTTER + 8, 15);
       // Lane grooves.
       for (let i = 0; i < score.voices.length; i++) {
-        const y = RULER + i * LANE + LANE / 2 + 4;
+        const y = laneCenter(score, i);
         ctx.fillStyle = 'rgba(0,0,0,0.35)';
         ctx.fillRect(GUTTER, y - 0.5, width - GUTTER, 1);
       }
@@ -175,7 +184,7 @@ export default function RollCanvas({ song, score, getBeat }: Props) {
       ctx.fillStyle = '#c9a45c';
       ctx.fillRect(comb - 1.5, RULER - 4, 3, height - RULER + 4);
       for (let i = 0; i < score.voices.length; i++) {
-        const y = RULER + i * LANE + LANE / 2 + 4;
+        const y = laneCenter(score, i);
         ctx.fillRect(comb - 9, y - 1, 9, 2);
       }
 
@@ -183,7 +192,7 @@ export default function RollCanvas({ song, score, getBeat }: Props) {
       ctx.fillStyle = '#15110e';
       ctx.fillRect(0, 0, GUTTER, height);
       score.voices.forEach((v, i) => {
-        const y = RULER + i * LANE + LANE / 2 + 4;
+        const y = laneCenter(score, i);
         const earned = v.author === null || beat >= v.earnedBeat;
         ctx.globalAlpha = earned ? 1 : 0.22;
         const color = VOICE_COLOR[v.id];
