@@ -1,0 +1,273 @@
+{
+ "glock": [
+  {
+   "midi": 79,
+   "cents": 8.4,
+   "file": "glock/79.mp3"
+  },
+  {
+   "midi": 84,
+   "cents": 11.8,
+   "file": "glock/84.mp3"
+  },
+  {
+   "midi": 91,
+   "cents": 11.9,
+   "file": "glock/91.mp3"
+  },
+  {
+   "midi": 96,
+   "cents": 15.7,
+   "file": "glock/96.mp3"
+  }
+ ],
+ "harp": [
+  {
+   "midi": 55,
+   "cents": -6.8,
+   "file": "harp/55.mp3"
+  },
+  {
+   "midi": 59,
+   "cents": -12.6,
+   "file": "harp/59.mp3"
+  },
+  {
+   "midi": 62,
+   "cents": -11.9,
+   "file": "harp/62.mp3"
+  },
+  {
+   "midi": 69,
+   "cents": -9.6,
+   "file": "harp/69.mp3"
+  },
+  {
+   "midi": 72,
+   "cents": -11.1,
+   "file": "harp/72.mp3"
+  },
+  {
+   "midi": 76,
+   "cents": -11.1,
+   "file": "harp/76.mp3"
+  },
+  {
+   "midi": 79,
+   "cents": -5.4,
+   "file": "harp/79.mp3"
+  },
+  {
+   "midi": 83,
+   "cents": -7.3,
+   "file": "harp/83.mp3"
+  }
+ ],
+ "piano": [
+  {
+   "midi": 55,
+   "cents": -3.5,
+   "file": "piano/55.mp3"
+  },
+  {
+   "midi": 60,
+   "cents": -0.9,
+   "file": "piano/60.mp3"
+  },
+  {
+   "midi": 67,
+   "cents": -3.7,
+   "file": "piano/67.mp3"
+  },
+  {
+   "midi": 72,
+   "cents": -1.6,
+   "file": "piano/72.mp3"
+  },
+  {
+   "midi": 79,
+   "cents": 0.9,
+   "file": "piano/79.mp3"
+  },
+  {
+   "midi": 84,
+   "cents": 4.8,
+   "file": "piano/84.mp3"
+  }
+ ],
+ "violin": [
+  {
+   "midi": 59,
+   "cents": -1.9,
+   "file": "violin/59.mp3"
+  },
+  {
+   "midi": 62,
+   "cents": -4.0,
+   "file": "violin/62.mp3"
+  },
+  {
+   "midi": 69,
+   "cents": -9.5,
+   "file": "violin/69.mp3"
+  },
+  {
+   "midi": 72,
+   "cents": 13.8,
+   "file": "violin/72.mp3"
+  },
+  {
+   "midi": 76,
+   "cents": 0.8,
+   "file": "violin/76.mp3"
+  },
+  {
+   "midi": 79,
+   "cents": 0.6,
+   "file": "violin/79.mp3"
+  },
+  {
+   "midi": 83,
+   "cents": 11.0,
+   "file": "violin/83.mp3"
+  }
+ ],
+ "viola": [
+  {
+   "midi": 52,
+   "cents": 3.3,
+   "file": "viola/52.mp3"
+  },
+  {
+   "midi": 59,
+   "cents": -17.6,
+   "file": "viola/59.mp3"
+  },
+  {
+   "midi": 62,
+   "cents": -14.0,
+   "file": "viola/62.mp3"
+  },
+  {
+   "midi": 65,
+   "cents": -23.4,
+   "file": "viola/65.mp3"
+  },
+  {
+   "midi": 69,
+   "cents": -5.0,
+   "file": "viola/69.mp3"
+  },
+  {
+   "midi": 72,
+   "cents": 2.2,
+   "file": "viola/72.mp3"
+  },
+  {
+   "midi": 76,
+   "cents": 10.1,
+   "file": "viola/76.mp3"
+  }
+ ],
+ "cello": [
+  {
+   "midi": 40,
+   "cents": 13.8,
+   "file": "cello/40.mp3"
+  },
+  {
+   "midi": 43,
+   "cents": 23.6,
+   "file": "cello/43.mp3"
+  },
+  {
+   "midi": 47,
+   "cents": -13.2,
+   "file": "cello/47.mp3"
+  },
+  {
+   "midi": 53,
+   "cents": 34.2,
+   "file": "cello/53.mp3"
+  },
+  {
+   "midi": 57,
+   "cents": 10.0,
+   "file": "cello/57.mp3"
+  },
+  {
+   "midi": 60,
+   "cents": -4.1,
+   "file": "cello/60.mp3"
+  },
+  {
+   "midi": 64,
+   "cents": -10.8,
+   "file": "cello/64.mp3"
+  }
+ ],
+ "bass": [
+  {
+   "midi": 31,
+   "cents": 10.1,
+   "file": "bass/31.mp3"
+  },
+  {
+   "midi": 34,
+   "cents": -3.1,
+   "file": "bass/34.mp3"
+  },
+  {
+   "midi": 40,
+   "cents": 0.6,
+   "file": "bass/40.mp3"
+  },
+  {
+   "midi": 44,
+   "cents": 2.6,
+   "file": "bass/44.mp3"
+  },
+  {
+   "midi": 45,
+   "cents": 26.2,
+   "file": "bass/45.mp3"
+  }
+ ],
+ "pad": [
+  {
+   "midi": 50,
+   "cents": -13.2,
+   "file": "pad/50.mp3"
+  },
+  {
+   "midi": 55,
+   "cents": -12.0,
+   "file": "pad/55.mp3"
+  },
+  {
+   "midi": 59,
+   "cents": -38.4,
+   "file": "pad/59.mp3"
+  },
+  {
+   "midi": 62,
+   "cents": -11.0,
+   "file": "pad/62.mp3"
+  },
+  {
+   "midi": 65,
+   "cents": 2.9,
+   "file": "pad/65.mp3"
+  },
+  {
+   "midi": 69,
+   "cents": 12.7,
+   "file": "pad/69.mp3"
+  },
+  {
+   "midi": 72,
+   "cents": 10.8,
+   "file": "pad/72.mp3"
+  }
+ ]
+}
