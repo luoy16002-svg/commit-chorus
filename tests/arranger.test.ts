@@ -68,6 +68,16 @@ describe('arrange', () => {
     roots.forEach((r, b) => expect(r).toBe(CHORDS[b % 4].root));
   });
 
+  it('finds the busiest week and the longest silence', () => {
+    // 2024-01-01 is a Monday. Week 0: 1 commit; week 2: 3 commits; a 10-day gap between day 1 and day 12.
+    const s = song([[0, 0, 'aaaaaaa'], [1, 0, 'bbbbbbb'], [12, 0, 'ccccccc'], [14, 0, 'ddddddd'], [15, 0, 'eeeeeee'], [16, 0, 'fffffff']]);
+    const { stats } = arrange(s);
+    expect(stats.busiestBar.commits).toBe(3);
+    expect(new Date(stats.busiestBar.from).toISOString().slice(0, 10)).toBe('2024-01-15');
+    expect(new Date(stats.busiestBar.to).toISOString().slice(0, 10)).toBe('2024-01-21');
+    expect(stats.longestGapDays).toBe(10);
+  });
+
   it('starts the song on the Monday of the first commit and reports stats', () => {
     const score = arrange(deno);
     expect(new Date(score.start).getUTCDay()).toBe(1);

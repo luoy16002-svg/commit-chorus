@@ -40,7 +40,7 @@ Build mode: fast (the learner asked the agent to carry the build through and rep
   Learner check: Type a repository you know and see whether its song and lanes match what you'd expect.
   Commit: `Play any public repository from GitHub`
 
-- [ ] **4. End card, sharing and transport**
+- [x] **4. End card, sharing and transport**
   Becomes usable: Restart and double speed; an end card with commits, voices, busiest week and longest gap; "Copy link" with `?repo=` that opens straight into the player.
   Why now: Completes the journey the PRD describes and makes it shareable.
   PRD ref: `prd.md > End card and sharing`, `prd.md > The Core Journey` (steps 6–8)
@@ -87,3 +87,4 @@ Activity mode: not started
 - Instruments are now earned at 3, 6 or 10 commits depending on the song's size instead of always on the third commit — the first roll of Deno showed four of six instruments going to early drive-by contributors while the main contributors (Kitson Kelly, Kevin Kun) played in "everyone else".
 - The roll follows the heard position (the audio clock minus the device's output latency, 50 ms on the build machine) rather than the scheduling clock, so a hole lights when its note is actually heard.
 - A live fetch that runs out of its request budget now plays what it has (marked as capped) instead of failing; Deno's oldest page holds only a few dozen commits, so 1,000 commits took 11 pages, one more than the first budget allowed.
+- The roll has a minimum height and centres its lanes, so songs with few earned instruments (Bun has two) still leave room for the end card.

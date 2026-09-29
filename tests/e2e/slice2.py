@@ -11,7 +11,7 @@ with sync_playwright() as pw:
     pg.on('pageerror', lambda e: errs.append(str(e)))
     pg.goto(URL); pg.wait_for_selector('.preset', timeout=20000)
     pg.locator('.preset').first.click()
-    pg.get_by_role('button', name='Play').click()
+    pg.get_by_role('button', name='Play', exact=True).click()
     shots = {}
     for t in [2, 10, 40]:
         while (pg.evaluate('window.__cc.contextTime()') or 0) < t: time.sleep(0.1)
