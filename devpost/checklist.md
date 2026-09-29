@@ -50,7 +50,7 @@ Build mode: fast (the learner asked the agent to carry the build through and rep
   Learner check: Play a preset to the end, copy the link, and open it in a new tab.
   Commit: `Add end card, share link and transport`
 
-- [ ] **5. Published**
+- [x] **5. Published**
   Becomes usable: The app is live on GitHub Pages and the public repository has a README.
   Why now: The submission needs a public repository; a live link makes the demo easy to try.
   PRD ref: `prd.md > What We're Building`
@@ -62,8 +62,8 @@ Build mode: fast (the learner asked the agent to carry the build through and rep
 
 ## Hands-on Checkpoints
 
-- [ ] Early usable behavior explored — after slice 2 (agent listening test on the learner's behalf, per their delegation)
-- [ ] Final kick-the-tires exploration and feedback completed
+- [x] Early usable behavior explored — after slice 2, done by the agent on the learner's behalf (per their delegation): screenshots of Deno's roll led to the instrument-threshold revision
+- [x] Final kick-the-tires exploration and feedback completed — agent run of every slice's checks against the live site; the learner's own listening review is still open
 
 ## Final Review
 
@@ -71,15 +71,15 @@ Build mode: fast (the learner asked the agent to carry the build through and rep
 
 ## Code Tour and App Map
 
-- [ ] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
-- [ ] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
-- [ ] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
+- [x] Learning activity complete — brief evidence-based recap (the learner delegated the build)
+- [x] Optional edit and transfer reflection addressed — not applicable while the learner delegated the build
+- [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
-Activity and evidence: not started
-Route and stops: not started
-Edit outcome: not started
-Reflection: not started
-Activity mode: not started
+Activity and evidence: recap of the instrument-threshold revision (checklist Revisions; tests/arranger.test.ts)
+Route and stops: reference route only — src/App.tsx openPreset/toggle → src/music/arranger.ts arrange/earnThreshold/step → src/audio/engine.ts Engine.pump/heardBeat and src/roll/RollCanvas.tsx
+Edit outcome: not applicable
+Reflection: not offered yet; the learner reviews the finished app with the final report
+Activity mode: recap
 
 ## Revisions
 - Stack versions are Vite 8, TypeScript 7, Vitest 5 and React 19 — the current releases at build time; the spec named Vite 7.

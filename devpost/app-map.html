@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commit Chorus — App Map</title>
+<style>
+  :root { --bg:#15110e; --card:#1f1813; --cream:#efe6d6; --muted:#a4978a; --brass:#c9a45c; --hi:#f3d08a; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--cream); font:16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 900px; margin: 0 auto; padding: 40px 24px 60px; }
+  h1 { font-family: Georgia, serif; font-size: 34px; margin: 0 0 6px; }
+  h2 { font-family: Georgia, serif; font-size: 22px; margin: 36px 0 10px; color: var(--hi); }
+  p, li { color: var(--cream); }
+  .muted { color: var(--muted); }
+  code { font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 14px; background: #241c16; padding: 1px 6px; border-radius: 5px; color: var(--hi); }
+  .card { background: var(--card); border: 1px solid rgba(201,164,92,.25); border-radius: 12px; padding: 16px 20px; margin: 12px 0; }
+  .stop { display: grid; grid-template-columns: 34px 1fr; gap: 12px; }
+  .num { width: 30px; height: 30px; border-radius: 50%; background: var(--brass); color: #1b140d; display: grid; place-items: center; font-weight: 700; }
+  details summary { cursor: pointer; color: var(--hi); }
+  svg text { font: 13px system-ui, sans-serif; fill: #efe6d6; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Commit Chorus — App Map</h1>
+  <p class="muted">A snapshot guide to the finished proof of concept (source commit <code>5abc4c4</code>). Paths and names can drift as the code changes.</p>
+
+  <h2>What the app does</h2>
+  <p>You pick a preset or type a public GitHub repository. The page reads its first year of commits, turns them into a score (every commit a note, every week a bar, regular contributors earning instruments), plays it with sampled instruments, and scrolls a music-box paper roll in step with the sound.</p>
+
+  <h2>One action, end to end: pressing Play on the Deno preset</h2>
+  <svg viewBox="0 0 860 150" width="100%" role="img" aria-label="Preset file to arranger to engine and roll">
+    <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#c9a45c"/></marker></defs>
+    <rect x="4" y="40" width="170" height="64" rx="10" fill="#241c16" stroke="#c9a45c"/><text x="20" y="67">presets/deno.json</text><text x="20" y="88" style="fill:#a4978a">1,828 commits</text>
+    <rect x="224" y="40" width="170" height="64" rx="10" fill="#241c16" stroke="#c9a45c"/><text x="240" y="67">arrange(song)</text><text x="240" y="88" style="fill:#a4978a">notes + holes + stats</text>
+    <rect x="444" y="4" width="190" height="60" rx="10" fill="#241c16" stroke="#c9a45c"/><text x="460" y="30">Engine.play()</text><text x="460" y="50" style="fill:#a4978a">sampled instruments</text>
+    <rect x="444" y="84" width="190" height="60" rx="10" fill="#241c16" stroke="#c9a45c"/><text x="460" y="110">RollCanvas</text><text x="460" y="130" style="fill:#a4978a">reads heardBeat()</text>
+    <rect x="684" y="40" width="170" height="64" rx="10" fill="#2a211a" stroke="#f3d08a"/><text x="700" y="67">You hear the song</text><text x="700" y="88" style="fill:#a4978a">and see holes light</text>
+    <path d="M174 72H222" stroke="#c9a45c" stroke-width="2" marker-end="url(#a)"/>
+    <path d="M394 64L442 36" stroke="#c9a45c" stroke-width="2" marker-end="url(#a)"/>
+    <path d="M394 80L442 112" stroke="#c9a45c" stroke-width="2" marker-end="url(#a)"/>
+    <path d="M634 36L682 64" stroke="#c9a45c" stroke-width="2" marker-end="url(#a)"/>
+    <path d="M634 112L682 82" stroke="#c9a45c" stroke-width="2" marker-end="url(#a)"/>
+  </svg>
+
+  <h2>Reference route (three stops)</h2>
+  <div class="card stop"><div class="num">1</div><div>
+    <p><code>src/App.tsx</code> → <code>openPreset</code> loads the preset file and calls <code>show</code>, which runs the arranger; <code>toggle</code> starts the sound engine on your click (browsers only allow sound after one).</p>
+  </div></div>
+  <div class="card stop"><div class="num">2</div><div>
+    <p><code>src/music/arranger.ts</code> → <code>arrange</code> is the heart of the app: it decides who plays which instrument (<code>earnThreshold</code>), which pitch each commit gets (<code>step</code>, a small melodic move chosen by the commit hash and kept inside the week's chord), and adds the bass and string chord.</p>
+  </div></div>
+  <div class="card stop"><div class="num">3</div><div>
+    <p><code>src/audio/engine.ts</code> → <code>Engine</code> schedules notes slightly ahead of time in <code>pump</code>; <code>heardBeat</code> tells <code>src/roll/RollCanvas.tsx</code> where the listener is, so holes light up when their notes are actually heard.</p>
+  </div></div>
+
+  <h2>To change this, start here</h2>
+  <ul>
+    <li>The chord progression or the scale: <code>CHORDS</code> and <code>PENTATONIC</code> in <code>src/music/arranger.ts</code>.</li>
+    <li>How many commits earn an instrument: <code>earnThreshold</code> in the same file.</li>
+    <li>Instrument loudness and stereo position: <code>MIX</code> in <code>src/audio/engine.ts</code>.</li>
+    <li>Colours of each lane: <code>VOICE_COLOR</code> in <code>src/roll/RollCanvas.tsx</code>; page colours are CSS variables at the top of <code>src/styles.css</code>.</li>
+    <li>The presets: <code>PRESETS</code> in <code>scripts/make-presets.ts</code>, then <code>npm run presets</code>.</li>
+  </ul>
+
+  <h2>A practice to reuse</h2>
+  <div class="card">
+    <p><strong>Look at real output before trusting a rule.</strong> The plan said a contributor earns an instrument on their third commit. The first screenshot of Deno's roll showed four of six instruments going to people who made three or four commits, while the main contributors played in "everyone else". The fix (a threshold that grows with the repository, <code>earnThreshold</code>) is recorded under <em>Revisions</em> in <code>devpost/checklist.md</code> and covered by <code>tests/arranger.test.ts</code>.</p>
+    <p class="muted">On another project: when a rule maps real data to something people will see, render it on a real dataset early and look, before building more on top of it.</p>
+  </div>
+
+  <h2>Run it again</h2>
+  <details open><summary>Commands</summary>
+    <p><code>npm install</code>, then <code>npm run dev</code> and open the printed address. <code>npm test</code> runs the unit tests. The live version is at <code>https://luoy16002-svg.github.io/commit-chorus/</code>.</p>
+  </details>
+</main>
+</body>
+</html>
