@@ -44,7 +44,7 @@ export function firstLine(message: string): string {
  * GitHub lists commits newest first, so the pages are read from the last one backwards.
  */
 export async function loadRepo(ref: RepoRef, opts: LoadOptions = {}): Promise<Song> {
-  const { maxCommits = 1000, days = 365, maxRequests = 12, token, onProgress } = opts;
+  const { maxCommits = 1000, days = 365, maxRequests = 13, token, onProgress } = opts;
   const doFetch = opts.fetch ?? fetch;
   let requests = 0;
 
@@ -81,6 +81,10 @@ export async function loadRepo(ref: RepoRef, opts: LoadOptions = {}): Promise<So
   let limitT = Infinity;
   let capped = false;
   outer: for (let page = last; page >= 1; page--) {
+    if (page !== 1 && requests >= maxRequests) {
+      capped = true; // out of request budget: play what we have
+      break;
+    }
     const items: ApiCommit[] =
       page === 1 ? firstPage : ((await (await get(`/repos/${ref.owner}/${ref.name}/commits?per_page=100&page=${page}`)).json()) as ApiCommit[]);
     // Each page is newest first; walk it oldest first.

@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Engine, loadManifest, SECONDS_PER_BEAT, type Manifest } from './audio/engine';
 import { renderOffline } from './debug';
+import { loadRepo, RepoError } from './loader/github';
+import { parseRepo } from './loader/repo';
 import { arrange, type Score } from './music/arranger';
 import RollCanvas, { VOICE_COLOR } from './roll/RollCanvas';
 import type { Song } from './types';
@@ -110,9 +112,13 @@ export default function App() {
   const [presets, setPresets] = useState<PresetCard[]>([]);
   const [song, setSong] = useState<Song | null>(null);
   const [score, setScore] = useState<Score | null>(null);
+  const scoreRef = useRef<Score | null>(null);
+  scoreRef.current = score;
   const [playing, setPlaying] = useState(false);
   const [loadingSound, setLoadingSound] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [query, setQuery] = useState('');
+  const [fetching, setFetching] = useState<string | null>(null);
 
   useEffect(() => {
     fetchJson<PresetCard[]>('presets/index.json').then(setPresets, () => setPresets([]));
@@ -146,6 +152,33 @@ export default function App() {
       show(await fetchJson<Song>(`presets/${slug}.json`));
     } catch {
       setError('Could not load that preset. Try reloading the page.');
+    }
+  }
+
+  async function openRepo(input: string) {
+    const ref = parseRepo(input);
+    if (!ref) {
+      setError('Type a repository as owner/name, or paste its GitHub link.');
+      return;
+    }
+    setError(null);
+    setFetching(`Reading ${ref.owner}/${ref.name}…`);
+    try {
+      const s = await loadRepo(ref, {
+        onProgress: (n) => setFetching(`Reading ${ref.owner}/${ref.name}… ${n.toLocaleString('en-US')} commits`),
+      });
+      engineRef.current?.pause();
+      show(s);
+      setQuery('');
+    } catch (e) {
+      if (e instanceof RepoError && e.kind === 'rate-limited') {
+        const at = e.resetAt ? e.resetAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'within the hour';
+        setError(`GitHub allows a limited number of anonymous requests per hour, and they're used up. They reset at ${at}. The presets still play.`);
+      } else {
+        setError(e instanceof RepoError ? e.message : 'Something went wrong while reading that repository.');
+      }
+    } finally {
+      setFetching(null);
     }
   }
 
@@ -197,6 +230,7 @@ export default function App() {
         return renderOffline(s, manifest, BASE, seconds, fromBeat, only);
       },
       beat: () => engineRef.current?.beat() ?? 0,
+      opening: (n: number) => scoreRef.current?.notes.slice(0, n).map((x) => [x.beat, x.inst, x.midi]) ?? null,
       contextTime: () => (engineRef.current?.ctx as AudioContext | undefined)?.currentTime ?? 0,
       sync: () => {
         const e = engineRef.current;
@@ -220,7 +254,27 @@ export default function App() {
           </svg>
           <span>Commit Chorus</span>
         </button>
+        <form
+          className="search"
+          onSubmit={(e) => {
+            e.preventDefault();
+            void openRepo(query);
+          }}
+        >
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="owner/repo or a GitHub link"
+            aria-label="GitHub repository"
+            disabled={!!fetching}
+            spellCheck={false}
+          />
+          <button type="submit" disabled={!!fetching || !query.trim()}>
+            {fetching ? 'Reading…' : 'Play its first year'}
+          </button>
+        </form>
       </header>
+      {fetching && <p className="status">{fetching}</p>}
 
       {error && <p className="error">{error}</p>}
 
@@ -263,8 +317,10 @@ export default function App() {
                 </a>
               </h2>
               <p>
-                First year · {monthYear(score.stats.from)} – {monthYear(score.stats.to)} · {score.stats.commits.toLocaleString('en-US')}{' '}
-                commits · {score.voices.length - 1} earned instruments
+                {song.window.capped ? `First ${score.stats.commits.toLocaleString('en-US')} commits` : 'First year'} ·{' '}
+                {monthYear(score.stats.from)} – {monthYear(score.stats.to)}
+                {!song.window.capped && ` · ${score.stats.commits.toLocaleString('en-US')} commits`} · {score.voices.length - 1} earned
+                instruments
               </p>
             </div>
           </div>
