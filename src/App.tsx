@@ -298,6 +298,17 @@ export default function App() {
       },
       beat: () => engineRef.current?.beat() ?? 0,
       href: () => location.href,
+      warm: async () => {
+        await ensureEngine();
+      },
+      startTap: async () => (await ensureEngine()).startRecording(),
+      stopTap: async () => {
+        const blob = await engineRef.current!.stopRecording();
+        const bytes = new Uint8Array(await blob.arrayBuffer());
+        let bin = '';
+        for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+        return btoa(bin);
+      },
       opening: (n: number) => scoreRef.current?.notes.slice(0, n).map((x) => [x.beat, x.inst, x.midi]) ?? null,
       contextTime: () => (engineRef.current?.ctx as AudioContext | undefined)?.currentTime ?? 0,
       sync: () => {
