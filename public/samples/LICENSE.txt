@@ -1,0 +1,3 @@
+Instrument recordings: Versilian Studios Chamber Orchestra 2, Community Edition (VSCO-2 CE),
+released under CC0 1.0 Universal. https://github.com/sgossner/VSCO-2-CE
+These files are trimmed, leveled and re-encoded excerpts.
