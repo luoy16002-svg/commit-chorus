@@ -56,7 +56,32 @@ export class Engine {
   private originCtx = 0; // context time of beat 0
   private pausedBeat = 0;
   private secondsPerBeat = SECONDS_PER_BEAT;
+  private out: AudioNode;
+  private recorder: MediaRecorder | null = null;
+  private chunks: Blob[] = [];
   playing = false;
+
+  /** Record what the listener hears (used to make the demo video). Returns the epoch time recording began. */
+  startRecording(): Promise<number> {
+    const ctx = this.ctx as AudioContext;
+    const dest = ctx.createMediaStreamDestination();
+    this.out.connect(dest);
+    this.chunks = [];
+    this.recorder = new MediaRecorder(dest.stream, { mimeType: 'audio/webm;codecs=opus', audioBitsPerSecond: 256_000 });
+    this.recorder.ondataavailable = (e) => this.chunks.push(e.data);
+    return new Promise((resolve) => {
+      this.recorder!.onstart = () => resolve(performance.timeOrigin + performance.now());
+      this.recorder!.start(1000);
+    });
+  }
+
+  stopRecording(): Promise<Blob> {
+    return new Promise((resolve) => {
+      if (!this.recorder) return resolve(new Blob());
+      this.recorder.onstop = () => resolve(new Blob(this.chunks, { type: 'audio/webm' }));
+      this.recorder.stop();
+    });
+  }
 
   constructor(
     public ctx: BaseAudioContext,
@@ -78,6 +103,7 @@ export class Engine {
     this.master.connect(comp);
     this.master.connect(verb).connect(wet).connect(comp);
     comp.connect(ctx.destination);
+    this.out = comp;
     for (const [inst, mix] of Object.entries(MIX) as [Instrument, (typeof MIX)[Instrument]][]) {
       const g = ctx.createGain();
       g.gain.value = mix.gain;
