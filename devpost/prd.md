@@ -44,7 +44,7 @@ One page, three states: **Home** (input + presets), **Player** (roll + transport
 ### The music
 (Agent decisions, made to satisfy the learner's "clear harmony, not chaotic" requirement.)
 - One day = one beat; one week = one bar of seven beats; the chord changes every week through a four-week cycle, so the harmony always resolves.
-- A contributor earns their own instrument on their third commit. The first six to do so get glockenspiel, harp, upright piano, violin pizzicato, viola pizzicato and cello pizzicato, in that order; everyone else shares a soft piano voice. Because this only depends on the history so far, a longer or shorter window never changes who plays what.
+- A contributor earns their own instrument once they reach a few commits: 3 in a small repository, 6 in one with 100–299 commits in the window, 10 in a busy one (300+). The first six to do so get glockenspiel, harp, upright piano, violin pizzicato, viola pizzicato and cello pizzicato, in that order; everyone else shares a soft piano voice. Every busy song uses the same threshold, so a live fetch capped at 1,000 commits assigns the same instruments as the full year.
 - Each contributor's notes move stepwise from their previous note, so every voice sounds like a line, not random notes. Busy days become quick runs (up to four notes per voice per day); a louder day means more commits.
 - A pizzicato bass marks each week's first beat and a very quiet sustained string chord holds the harmony, so quiet weeks still sound like music, and silence in the commit history is heard as thinning texture, not dead air.
 - The same repository always produces exactly the same song.

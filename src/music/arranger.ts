@@ -124,6 +124,15 @@ function step(w: Walker, sha: string, allowed: number[], strong: boolean, chordL
   return pitch;
 }
 
+/**
+ * Commits needed to earn an instrument. Busy repositories need more, so the six instruments go to
+ * regulars rather than to the first drive-by contributors. Every song of 300+ commits uses the same
+ * threshold, so a live fetch capped at 1,000 commits assigns the same instruments as a full year.
+ */
+export function earnThreshold(commits: number): number {
+  return commits >= 300 ? 10 : commits >= 100 ? 6 : 3;
+}
+
 /** Turn a song's commits into a score. Pure and deterministic: the same commits always give the same score. */
 export function arrange(song: Song): Score {
   const { commits, authors } = song;
@@ -131,7 +140,8 @@ export function arrange(song: Song): Score {
   const start = mondayUTC(commits[0].t);
   const dayOf = (t: number) => Math.floor((t - start) / DAY_MS);
 
-  // Who plays what: a contributor earns an instrument on their third commit.
+  // Who plays what: a contributor earns an instrument once they reach a few commits.
+  const need = earnThreshold(commits.length);
   const counts = new Map<number, number>();
   const voiceOf = new Map<number, Earned>();
   const voices: Voice[] = [];
@@ -139,7 +149,7 @@ export function arrange(song: Song): Score {
   commits.forEach((c, i) => {
     const n = (counts.get(c.a) ?? 0) + 1;
     counts.set(c.a, n);
-    if (n === 3 && !authors[c.a].bot && !voiceOf.has(c.a) && voices.length < EARNED.length) {
+    if (n === need && !authors[c.a].bot && !voiceOf.has(c.a) && voices.length < EARNED.length) {
       const id = EARNED[voices.length];
       voiceOf.set(c.a, id);
       voices.push({ id, author: c.a, earnedBeat: dayOf(c.t) });
