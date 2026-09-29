@@ -30,7 +30,7 @@ Build mode: fast (the learner asked the agent to carry the build through and rep
   Learner check: Watch the Deno preset for half a minute and say whether the roll and the sound feel in sync.
   Commit: `Draw the paper roll in sync with playback`
 
-- [ ] **3. Any public repository plays**
+- [x] **3. Any public repository plays**
   Becomes usable: Type `owner/name` or a GitHub URL and hear that repository's first year; clear messages for not found, rate limited, empty and network errors.
   Why now: Turns the demo into a tool; it reuses the arranger, engine and roll unchanged.
   PRD ref: `prd.md > Choosing a repository`, `prd.md > States and Boundaries`
@@ -86,3 +86,4 @@ Activity mode: not started
 - The "listen to the densest weeks" check became a measured one: the agent cannot listen, so each instrument was rendered alone and its level compared (cello and "everyone else" turned down, the string pad turned up), and the renders are saved for the learner to hear.
 - Instruments are now earned at 3, 6 or 10 commits depending on the song's size instead of always on the third commit — the first roll of Deno showed four of six instruments going to early drive-by contributors while the main contributors (Kitson Kelly, Kevin Kun) played in "everyone else".
 - The roll follows the heard position (the audio clock minus the device's output latency, 50 ms on the build machine) rather than the scheduling clock, so a hole lights when its note is actually heard.
+- A live fetch that runs out of its request budget now plays what it has (marked as capped) instead of failing; Deno's oldest page holds only a few dozen commits, so 1,000 commits took 11 pages, one more than the first budget allowed.
