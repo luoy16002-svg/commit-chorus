@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "presets": "tsx scripts/make-presets.ts"
+    "presets": "tsx scripts/make-presets.ts && tsx scripts/preset-index.ts"
   },
   "dependencies": {
     "react": "^19.3.0",

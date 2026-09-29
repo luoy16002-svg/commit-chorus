@@ -16,11 +16,11 @@ Build mode: fast (the learner asked the agent to carry the build through and rep
   PRD ref: `prd.md > The Core Journey` (steps 2, 5), `prd.md > The music`
   Spec ref: `spec.md > Arranger (src/music/arranger.ts)`, `spec.md > Sound engine (src/audio/engine.ts)`, `spec.md > Data Model`, `spec.md > File Structure`
   Build: Scaffold Vite + React + TypeScript; write `scripts/make-samples.py` and `scripts/make-presets.mjs` and generate the samples and three presets; implement the arranger and the sound engine; a minimal page with the preset button, Play/Pause and progress.
-  Verify (mechanical): `npm test` (arranger determinism, chord/scale conformance, third-commit voice rule, run cap); `npx tsc --noEmit`; a Playwright script renders the first 30 s of Deno offline and reports peak below 0 dBFS and RMS above −30 dBFS, then plays it live with no console errors; listen to an exported WAV of the densest weeks.
+  Verify (mechanical): `npm test` (arranger determinism, chord/scale conformance, voice-earning rule, run cap); `npx tsc --noEmit`; a Playwright script renders the first 30 s of Deno offline and reports peak below 0 dBFS and RMS above −30 dBFS, then plays it live with no console errors; listen to an exported WAV of the densest weeks.
   Learner check: Open the page, press Play on Deno, and listen for a steady, pleasant music-box piece rather than random notes.
   Commit: `Play the Deno preset as a music box`
 
-- [ ] **2. The paper roll moves with the music**
+- [x] **2. The paper roll moves with the music**
   Becomes usable: Lanes with avatars and instruments, holes for every commit, month labels, a brass comb where holes light up in time with their notes, and the commit ticker.
   Why now: Sight plus sound is what makes the kernel readable; it depends only on slice 1's score and clock.
   PRD ref: `prd.md > The roll`, `prd.md > The Core Journey` (steps 4–5)
@@ -84,3 +84,5 @@ Activity mode: not started
 ## Revisions
 - Stack versions are Vite 8, TypeScript 7, Vitest 5 and React 19 — the current releases at build time; the spec named Vite 7.
 - The "listen to the densest weeks" check became a measured one: the agent cannot listen, so each instrument was rendered alone and its level compared (cello and "everyone else" turned down, the string pad turned up), and the renders are saved for the learner to hear.
+- Instruments are now earned at 3, 6 or 10 commits depending on the song's size instead of always on the third commit — the first roll of Deno showed four of six instruments going to early drive-by contributors while the main contributors (Kitson Kelly, Kevin Kun) played in "everyone else".
+- The roll follows the heard position (the audio clock minus the device's output latency, 50 ms on the build machine) rather than the scheduling clock, so a hole lights when its note is actually heard.

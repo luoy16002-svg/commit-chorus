@@ -142,10 +142,18 @@ export class Engine {
     this.playing = false;
   }
 
-  /** Current song position in beats. */
+  /** Current song position in beats, as scheduled. */
   beat(): number {
     if (!this.playing) return this.pausedBeat;
     return Math.max(0, (this.ctx.currentTime - this.originCtx) / this.secondsPerBeat);
+  }
+
+  /** The position the listener is hearing right now: scheduled time minus the device's output delay. */
+  heardBeat(): number {
+    if (!this.playing) return this.pausedBeat;
+    const ctx = this.ctx as AudioContext;
+    const latency = (ctx.outputLatency || 0) + (ctx.baseLatency || 0);
+    return Math.max(0, (ctx.currentTime - latency - this.originCtx) / this.secondsPerBeat);
   }
 
   private seekIndex(beat: number): void {

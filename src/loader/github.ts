@@ -115,7 +115,7 @@ export async function loadRepo(ref: RepoRef, opts: LoadOptions = {}): Promise<So
       authors.push({
         key,
         login,
-        name: login ?? name,
+        name: c.commit.author?.name || login || 'unknown',
         avatar: c.author?.avatar_url ? `${c.author.avatar_url}${c.author.avatar_url.includes('?') ? '&' : '?'}s=80` : null,
         bot: !!login && (login.endsWith('[bot]') || c.author?.type === 'Bot'),
       });
